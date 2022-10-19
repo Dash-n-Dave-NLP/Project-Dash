@@ -23,11 +23,6 @@ def tree_model(X_train, y_train, X_validate, y_validate, depth):
     clf = DecisionTreeClassifier(max_depth=depth, random_state=217)
     # fit the model to train
     clf = clf.fit(X_train, y_train)
-    # designate the size of the tree visualization
-    plt.figure(figsize=(13, 7))
-    # show a graphical representation of the decision tree
-    plot_tree(clf)
-    plt.show()
     # get predictions for the model and save to a variable
     y_pred = clf.predict(X_train)
     # get probabilities for the model and save to a variable
@@ -38,6 +33,9 @@ def tree_model(X_train, y_train, X_validate, y_validate, depth):
     print(classification_report(y_train, y_pred))
     # print the accuracy of the model on validate to check for overfitting
     print('Accuracy of Decision Tree classifier on validate set: {:.2f}'.format(clf.score(X_validate, y_validate)))
+    acc = clf.score(X_train, y_train)
+    acc_val = clf.score(X_validate, y_validate)
+    return ["Decision Tree", acc, acc_val]
 
 def rand_forest(X_train, y_train, X_validate, y_validate, depth, samples):
     '''This function takes in six arguments: training dataframe of features, training dataframe for the target, validation
@@ -60,6 +58,9 @@ def rand_forest(X_train, y_train, X_validate, y_validate, depth, samples):
     print(classification_report(y_train, y_pred))
     # print the accuracy of the model on validate to check for overfitting
     print('Accuracy of Random Forest classifier on validate set: {:.2f}'.format(forest.score(X_validate, y_validate)))
+    acc = forest.score(X_train, y_train)
+    acc_val = forest.score(X_validate, y_validate)
+    return ["Random Forest", acc, acc_val]
 
 def bayes_model(X_train, y_train, X_validate, y_validate):
     '''This function takes in four arguments: training features dataframe, training target dataframe, validation features
@@ -80,6 +81,9 @@ def bayes_model(X_train, y_train, X_validate, y_validate):
     print(classification_report(y_train, y_pred))
     # print the accuracy of the model on validate
     print('Accuracy of Logistic Regression classifier on validate set: {:.2f}'.format(bayes.score(X_validate, y_validate)))
+    acc = bayes.score(X_train, y_train)
+    acc_val = bayes.score(X_validate, y_validate)
+    return ["Naive-Bayes Multinomial", acc, acc_val]
 
 def log_model_balanced(X_train, y_train, X_validate, y_validate):
     '''This function takes in four arguments: training features dataframe, training target dataframe, validation features
@@ -100,6 +104,9 @@ def log_model_balanced(X_train, y_train, X_validate, y_validate):
     print(classification_report(y_train, y_pred))
     # print the accuracy of the model on validate
     print('Accuracy of Logistic Regression classifier on validate set: {:.2f}'.format(logit.score(X_validate, y_validate)))
+    acc = logit.score(X_train, y_train)
+    acc_val = logit.score(X_validate, y_validate)
+    return ["Log Regression Balanced", acc, acc_val]
 
 def log_model(X_train, y_train, X_validate, y_validate):
     '''This function takes in four arguments: training features dataframe, training target dataframe, validation features
@@ -121,6 +128,9 @@ def log_model(X_train, y_train, X_validate, y_validate):
     print(classification_report(y_train, y_pred))
     # print the accuracy of the model on validate
     print('Accuracy of Logistic Regression classifier on validate set: {:.2f}'.format(logit.score(X_validate, y_validate)))
+    acc = logit.score(X_train, y_train)
+    acc_val = logit.score(X_validate, y_validate)
+    return ["Log Regression - saga", acc, acc_val]
 
 def test_log(X_train, y_train, X_test, y_test):
     '''This function takes in six arguments: training dataframe of features, training dataframe for the target, validation
@@ -175,3 +185,13 @@ def test_log_balanced(X_train, y_train, X_test, y_test):
     print('Accuracy of Logistic Regression classifier on test set:     {:.2f}'.format(lm.score(X_test, y_test)))
     print(classification_report(y_test, y_pred_test))    
 
+def model_performance(m1, m2, m3, m4):
+    '''This function takes in the four arguments, the list of values from the statistical test functions, and enters
+    the values into a dataframe. The function returns a dataframe showing the results for each selected model.'''
+    # convert the separate lists into a single dataframe
+    df = pd.DataFrame([m1,m2,m3,m4])
+    # rename the columns for readability
+    df = df.rename(columns={0:'Model', 1:'Train Accuracy', 2:'Validate Accuracy', 3:'Better than Baseline',
+                            5:'Accuracy Difference'})
+    # return a dataframe of the model results
+    return df
