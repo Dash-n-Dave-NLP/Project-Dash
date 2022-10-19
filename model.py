@@ -63,7 +63,7 @@ def rand_forest(X_train, y_train, X_validate, y_validate, depth, samples):
 
 def bayes_model(X_train, y_train, X_validate, y_validate):
     '''This function takes in four arguments: training features dataframe, training target dataframe, validation features
-        dataframe, and validation target dataframe. The function makes a logistic regression model and fits in to train. 
+        dataframe, and validation target dataframe. The function makes a Naive-Bayes multinomial classifier and fits in to train. 
         The model makes predictions on the training set and evaluates its performance. The function returns the accuracy of
         the model on the train and validate sets, as well as a classification report of the model's performance on train.'''
     # Create the logistic regression
@@ -107,7 +107,8 @@ def log_model(X_train, y_train, X_validate, y_validate):
         The model makes predictions on the training set and evaluates its performance. The function returns the accuracy of
         the model on the train and validate sets, as well as a classification report of the model's performance on train.'''
     # Create the logistic regression
-    logit = LogisticRegression(random_state=217)
+    logit = LogisticRegression(solver='saga', penalty='elasticnet', random_state = 217, 
+                            class_weight='balanced', l1_ratio=.001).fit(X_train, y_train)
     # Fit a model using only the specified features
     logit.fit(X_train, y_train)
     # Predict on that same subset of features
@@ -124,7 +125,7 @@ def log_model(X_train, y_train, X_validate, y_validate):
 def test_log(X_train, y_train, X_test, y_test):
     '''This function takes in six arguments: training dataframe of features, training dataframe for the target, validation
         dataframe of features, validation dataframe for target, the depth of the tree as an integer, and the minimum number 
-        of samples per leaf as an integer. The function fits and trains a random forest model and makes predictions for 
+        of samples per leaf as an integer. The function fits and trains a logistic regression model and makes predictions for 
         testing. The function returns a classification report of the model's performance on the training set and test
         set, as well as the depth and sample leaf size. It also prints the model's accuracy score on train and test.'''
     
@@ -148,5 +149,29 @@ def test_log(X_train, y_train, X_test, y_test):
     print('Accuracy of Logistic Regression classifier on test set:     {:.2f}'.format(lm.score(X_test, y_test)))
     print(classification_report(y_test, y_pred_test))
 
+def test_log_balanced(X_train, y_train, X_test, y_test):
+    '''This function takes in six arguments: training dataframe of features, training dataframe for the target, validation
+        dataframe of features, validation dataframe for target, the depth of the tree as an integer, and the minimum number 
+        of samples per leaf as an integer. The function fits and trains a logistic regression model and makes predictions for 
+        testing. The function returns a classification report of the model's performance on the training set and test
+        set, as well as the depth and sample leaf size. It also prints the model's accuracy score on train and test.'''
     
+    # Make the model
+    lm = LogisticRegression(random_state = 217, class_weight='balanced').fit(X_train, y_train)
+    # Fit the model on train only
+    lm.fit(X_train, y_train)
+    # Use the model
+    # We'll evaluate the model's performance on train, first
+    y_pred = lm.predict(X_train)
+    # get probabilities for the model and save to a variable
+    y_pred_proba = lm.predict_proba(X_train)
+    # evaluate the model's performance on the test set
+    y_pred_test = lm.predict(X_test)
+    # print the accuracy of the model on train
+    print('Accuracy of Logistic Regression classifier on training set: {:.2f}'.format(lm.score(X_train, y_train)))
+    # print the classification report for the model's performance on train
+    print(classification_report(y_train, y_pred))
+    # print the accuracy of the model on validate to check for overfitting
+    print('Accuracy of Logistic Regression classifier on test set:     {:.2f}'.format(lm.score(X_test, y_test)))
+    print(classification_report(y_test, y_pred_test))    
 
