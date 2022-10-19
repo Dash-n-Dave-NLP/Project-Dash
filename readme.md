@@ -13,20 +13,21 @@ Initial Questions:
 
 ## Executive Summary
 
-- The dataset was split into train, validate, and test using a 60/20/20 split stratefied on language. The total number of observations after removing nulls was 600 readme files.
+- We acquired 680 readme files from repositories on Github and removed duplicates and nulls. The readme contents were cleaned, tokenized, stemmed, lemmatized, and stopwords were removed. The final cleaned and prepared dataset was 600 observations. We decided to use five major programming languages: Python, C, C++, HTML, and PHP. All other programming languages were grouped into a category called "other." 
+- The dataset was split into train, validate, and test using a 60/20/20 split stratefied on language. 
 - We trained and evaluated three models: Decision Tree Classifier, Logistic Regression, and Naive-Bayes Multinomial Classifier. For each model we used a Count Vectorizer, Count Vectorizer with bigrams, and a TF-IDF Vectorizer. The TF-IDF Vectorizer produced the best overall accuracy in each model.
-- The selected model is a Logistic Regression model using a TF-IDF Vectorizer. The model performed at 97 percent accuracy on train, but accuracy dipped to 65 percent on the validate set. When model performed at 58 percent accuracy on the test set. This is 37 percent above the baseline accuracy, which is 21 percent.
+- The selected model is a Logistic Regression model using a TF-IDF Vectorizer. The model performed at 96 percent accuracy on train, but accuracy dipped to 54 percent on the validate set. When model performed at 58 percent accuracy on the test set. This is 41 percent above the baseline accuracy, which is 17 percent.
 
 ## Data Dictionary
 
 1. repo : the namepath of the repository (string)
-2. language : programming language (string)
+2. language : programming language of the repository (string)
 3. original : readme file (string)
-4. clean : cleaned version of original (string)
-5. stemmed : stemmed version of original (string)
-6. lemmatized: lemmatized version of original (string)
+4. clean : basic clean version of original (string)
+5. stemmed : cleaned and stemmed version of original (string)
+6. lemmatized: cleaned and lemmatized version of original (string)
 7. original_length: number of words in each original observation (int64)
-8. true_clean : cleaned and lemmatized version of original with stopwords removed (string)
+8. true_clean : cleaned and lemmatized version of original with stopwords and non-dictionary words removed (string)
 
 
 ## Project Planning
@@ -41,7 +42,7 @@ Initial Questions:
 - Ask more questions about the data
 - Document findings
 - Train and test models:
-    - Baseline accuracy with "other" language category is 16.7 percent; with "other" removed, baseline accuracy is 21 percent
+    - Baseline accuracy with "other" language category is 17 percent; with "other" removed, baseline accuracy is 21 percent
     - Select vectorizer and train multiple classification models
     - Test the model on the validate set, adjust model parameters if necessary
 - Select the best model for the project goals:
@@ -87,6 +88,8 @@ Initial Questions:
 
 - Use pandas to explore the dataframe and matplotlib to visualize word counts and n-grams.
 
+- Use WordCloud to create wordcloud images for each programming language.
+
 - Analyze words in each programming language to find the most used words.
 
 - Create models (decision tree, Naive-Bayes classifier, and logistic regression) using sklearn.
@@ -102,5 +105,7 @@ Initial Questions:
 
 ## Key Findings and Takeaways
 
-After training and evaluating three models using both a single-word count vectorizer, bigram count vectorizer, single-word TF-IDF vectorizer, and bigram TF-IDF vectorizer, the balanced logistic regression model provdided the best overall performance on the validate set both when the "other" language category is removed and when the category is retained. Fitting of the models resulted in over 90 percent accuracy on train; however, the accuracy of all models fell considerably on the validate set. The selected model performs with a 42 percent accuracy over baseline. Bigrams did not improve the model as much as we anticipated, and some models performed worse with both the bigram CV and TF-IDF. The selected model was trained using the TF-IDF vectorizer with single words only.
+After training and evaluating three models using both a single-word count vectorizer, bigram count vectorizer, single-word TF-IDF vectorizer, and bigram TF-IDF vectorizer, the balanced logistic regression model provdided the best overall performance on the validate set both when the "other" language category is removed and when the category is retained. We decided to retain the "other" category to account for languages outside the five major categories. Fitting of the models resulted in over 90 percent accuracy on train; however, the accuracy of all models fell considerably on the validate set. The selected model performs with a 41 percent accuracy over baseline. Bigrams did not improve the model as much as we anticipated, and some models performed worse with both the bigram CV and TF-IDF. The selected model was trained using the TF-IDF vectorizer with single words only.
+
+
 
