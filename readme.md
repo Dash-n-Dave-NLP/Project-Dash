@@ -8,12 +8,12 @@ We are using this dataset for academic purposes only.
 
 Initial Questions:
 
-- What keywords readily identify a particular programming language?
+- What keywords in a readme readily identify a particular programming language?
 - Can certain word combinations / n-grams in a readme improve identification of programming languages? 
 
 ## Executive Summary
 
-- The dataset was split into train, validate, and test using a 60/20/20 split stratefied on language. The total number of observations after removing nulls was 601 readme files.
+- The dataset was split into train, validate, and test using a 60/20/20 split stratefied on language. The total number of observations after removing nulls was 600 readme files.
 - We trained and evaluated three models: Decision Tree Classifier, Logistic Regression, and Naive-Bayes Multinomial Classifier. For each model we used a Count Vectorizer, Count Vectorizer with bigrams, and a TF-IDF Vectorizer. The TF-IDF Vectorizer produced the best overall accuracy in each model.
 - The selected model is a Logistic Regression model using a TF-IDF Vectorizer. The model performed at 97 percent accuracy on train, but accuracy dipped to 65 percent on the validate set. When model performed at 58 percent accuracy on the test set. This is 37 percent above the baseline accuracy, which is 21 percent.
 
@@ -102,4 +102,5 @@ Initial Questions:
 
 ## Key Findings and Takeaways
 
-After training and evaluating three models using both a single-word count vectorizer, bigram count vectorizer, and TF-IDF vectorizer, the logistic regression model provdided the best overall performance on the validate set. Fitting of the models resulted in over 90 percent accuracy on train; however, the accuracy of all models fell considerably on the validate set. 
+After training and evaluating three models using both a single-word count vectorizer, bigram count vectorizer, single-word TF-IDF vectorizer, and bigram TF-IDF vectorizer, the balanced logistic regression model provdided the best overall performance on the validate set both when the "other" language category is removed and when the category is retained. Fitting of the models resulted in over 90 percent accuracy on train; however, the accuracy of all models fell considerably on the validate set. The selected model performs with a 42 percent accuracy over baseline. Bigrams did not improve the model as much as we anticipated, and some models performed worse with both the bigram CV and TF-IDF. The selected model was trained using the TF-IDF vectorizer with single words only.
+
