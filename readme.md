@@ -1,5 +1,8 @@
 # NLP Team Project: Predicting a Github Repository's Programming Language Using NLP
 
+A recording of our presentation can be viewed here: https://www.canva.com/design/DAFPgY6Aj6s/NMmhxDsXu_SjriGNlGZ3-w/view?utm_content=DAFPgY6Aj6s&utm_campaign=designshare&utm_medium=link&utm_source=recording_view
+
+
 ## Goals
 
 The purpose of this project is to analyze the readme files of github repositories and develop a machine learning model to predict the programming language used in the repository using natural language processing. We obtained the dataset for this project from https://www.github.com. The code for acquiring this dataset is in our acquire.py file.
@@ -14,7 +17,7 @@ Initial Questions:
 ## Executive Summary
 
 - We acquired 680 readme files from repositories on Github and removed duplicates and nulls. The readme contents were cleaned, tokenized, stemmed, lemmatized, and stopwords were removed. The final cleaned and prepared dataset was 600 observations. We decided to use five major programming languages: Python, C, C++, HTML, and PHP. All other programming languages were grouped into a category called "other." 
-- The dataset was split into train, validate, and test using a 60/20/20 split stratefied on language. 
+- The dataset was split into train, validate, and test using a 60/20/20 split stratified on language. 
 - We trained and evaluated three models: Decision Tree Classifier, Logistic Regression, and Naive-Bayes Multinomial Classifier. For each model we used a Count Vectorizer, Count Vectorizer with bigrams, and a TF-IDF Vectorizer. The TF-IDF Vectorizer produced the best overall accuracy in each model.
 - The selected model is a Logistic Regression model using a TF-IDF Vectorizer. The model performed at 96 percent accuracy on train, but accuracy dipped to 54 percent on the validate set. When model performed at 58 percent accuracy on the test set. This is 41 percent above the baseline accuracy, which is 17 percent.
 
@@ -107,5 +110,17 @@ Initial Questions:
 
 After training and evaluating three models using both a single-word count vectorizer, bigram count vectorizer, single-word TF-IDF vectorizer, and bigram TF-IDF vectorizer, the balanced logistic regression model provdided the best overall performance on the validate set both when the "other" language category is removed and when the category is retained. We decided to retain the "other" category to account for languages outside the five major categories. Fitting of the models resulted in over 90 percent accuracy on train; however, the accuracy of all models fell considerably on the validate set. The selected model performs with a 41 percent accuracy over baseline. Bigrams did not improve the model as much as we anticipated, and some models performed worse with both the bigram CV and TF-IDF. The selected model was trained using the TF-IDF vectorizer with single words only.
 
+We set out to see if we could increase our ability to predict the Programing Language of a github Repo by looking at their Readme files.
+We established a Baseline of 18% Acc. and increased to 58% Acc. on out of training data.
+
+Next Steps
+
+We want to do more with our Data Engineering:
+    - Trying to isolate the most common words from everything and get rid of them
+    - Making sure we are not eliminating words or urls that may be Programing language specific
+    - Procure a larger sample that has a proper representation of the Population
+Additional Lifting Power:
+    - We want to use the API Key we aquired for GPT-3 to summarize the Readme information
+    - If the different languages have similar themes, the transformed information could give us more information
 
 
